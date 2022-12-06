@@ -1,15 +1,19 @@
 ---
-- name: Create/update setting file
-  ansible.builtin.template:
-    src: postgresql.j2
-    dest: /erc/postgresql/postgresql.conf
-    mode: "0644"
-- name: Add/update option setting
-  ansible.builtin.lineinfile:
-    path: /etc/postgresql/postgresql.conf
-    regexp: ^(#\\s+)?option_name=
-    line: option_name=option_value
-- name: Add/update custom setting
+# - name: Create/update setting file
+#   ansible.builtin.template:
+#     src: postgresql.j2
+#     dest: /erc/postgresql/postgresql.conf
+#     mode: "0644"
+# - name: Add/update option setting
+#   ansible.builtin.lineinfile:
+#     path: /etc/postgresql/postgresql.conf
+#     regexp: ^(#\\s+)?option_name=
+#     line: option_name=option_value
+- name: Add/update pg_hba.conf
   ansible.builtin.blockinfile:
-    path: /etc/postgresql/postgresql.conf
-    block: "{{ role_extra_cfg }}"
+    path: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    block: "{{ postgresql_pg_hba_cfg }}"
+- name: Add/update pg_ident.conf
+  ansible.builtin.blockinfile:
+    path: /etc/postgresql/{{ postgresql_version }}/main/pg_ident.conf
+    block: "{{ postgresql_pg_ident_cfg }}"

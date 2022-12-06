@@ -1,7 +1,16 @@
 ---
-# defaults file for postgresql
+## -----------------
+## インストールするパッケージ
+## -----------------
+postgresql_packages:
+  - postgresql
 
 ## -----------------
-## Doc Comment
+## pg_hba.confの設定
 ## -----------------
-postgresql_version: latest
+postgresql_pg_hba_cfg: ""
+
+## -----------------
+## pg_ident.confの設定
+## -----------------
+postgresql_pg_ident_cfg: ""

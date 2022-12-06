@@ -1,4 +1,4 @@
 ---
 - name: Install postgresql packages
   ansible.builtin.apt:
-    name: "{{ role_packages }}"
+    name: "{{ postgresql_packages }}"
