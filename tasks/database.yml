@@ -1,14 +1,12 @@
 ---
 - name: Create/remove databases
+  community.postgresql.postgresql_db:
+    name: "{{ item.name }}"
+    encoding: "{{ item.encoding | default(postgresql_default_charset) }}"
+    template: "{{ item.template | default(omit) }}"
+    state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
+  loop: "{{ postgresql_databases }}"
+  loop_control:
+    label: "{{ item.name }}"
   become: true
   become_user: postgres
-  block:
-    - name: Create/remove databases
-      community.postgresql.postgresql_db:
-        name: "{{ item.name }}"
-        encoding: "{{ item.encoding | default(postgresql_default_charset) }}"
-        template: "{{ item.template | default(omit) }}"
-        state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
-      loop: "{{ postgresql_databases }}"
-      loop_control:
-        label: "{{ item.name }}"

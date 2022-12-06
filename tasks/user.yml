@@ -1,18 +1,20 @@
 ---
-- name: Create PosrgreSQL users(on mariadb_databases variable)
-  community.postgresql.postgresql_user:
-    db: "{{ item.name }}"
-    name: "{{ item.user | default(item.name) }}"
-    password: "{{ item.password | default(omit) }}"
-    # login_unix_socket: "{{ postgresql_unix_socket_path }}"
-  loop: "{{ postgresql_databases | selectattr(attribute='password', 'defined') | list }}"
+- name: Create/remove databases
+  become: true
+  become_user: postgres
   no_log: true
-- name: Create/remove PosrgreSQL users
-  community.postgresql.postgresql_user:
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-    db: "{{ item.db | default(omit) }}"
-    state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
-    # login_unix_socket: "{{ postgresql_unix_socket_path }}"
-  loop: "{{ postgresql_users }}"
-  no_log: true
+  block:
+    - name: Create PosrgreSQL users(on postgresql_databases variable)
+      community.postgresql.postgresql_user:
+        name: "{{ item.user | default(item.name) }}"
+        password: "{{ item.password | default(omit) }}"
+        db: "{{ item.name }}"
+        state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
+      loop: "{{ postgresql_databases | selectattr('password', 'defined') | list }}"
+    - name: Create/remove PosrgreSQL users
+      community.postgresql.postgresql_user:
+        name: "{{ item.name }}"
+        password: "{{ item.password }}"
+        db: "{{ item.db | default(omit) }}"
+        state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
+      loop: "{{ postgresql_users }}"

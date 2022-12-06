@@ -13,31 +13,46 @@ postgresql_default_charset: UTF8
 ## -------------------
 ## データベースの設定
 ## -------------------
-postgresql_databases:
-  - name: sample
-    encoding: utf8
-    user: sample_user
-    password: sample_p@55w0rd
-    template: template0
-    # state: false
+postgresql_databases: []
+# - name: sample1
+#   encoding: utf8
+# - name: sample2
+#   encoding: utf8
+#   user: sample2_user
+#   password: sample_p@55w0rd
+# - name: sample3
+#   encoding: utf8
+#   template: template0
+# - name: sample4
+#   encoding: utf8
+#   state: false
 
 ## -------------------
 ## ユーザーの設定
 ## -------------------
 postgresql_users: []
+# - name: sample1
+#   password: sample1_p@55w0rd
+#   db: sample1
+# - name: sample2
+#   password: sample2_p@55w0rd
+#   db: sample2
+# - name: sample3
+#   password: sample1_p@55w0rd
+#   db: sample3
 
 ## -----------------
 ## pg_hba.confの設定
 ## -----------------
 postgresql_cfg: |
-  listen_addresses = '*'
+  # listen_addresses = '*'
 
 ## -----------------
 ## pg_hba.confの設定
 ## -----------------
 postgresql_pg_hba_cfg: |
   # TYPE  DATABASE        USER            ADDRESS                 METHOD
-  host    all             all             10.0.0.0/24             md5
+  # host    all             all             10.0.0.0/24             md5
 
 ## -----------------
 ## pg_ident.confの設定

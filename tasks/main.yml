@@ -25,9 +25,9 @@
 - name: Manage database
   ansible.builtin.import_tasks: database.yml
   tags: database
-# - name: Manage user
-#   ansible.builtin.import_tasks: user.yml
-#   tags: database_user
+- name: Manage user
+  ansible.builtin.import_tasks: user.yml
+  tags: database_user
 - name: Include service task
   ansible.builtin.import_tasks: service.yml
   tags: service
