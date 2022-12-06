@@ -22,9 +22,9 @@
 - name: Include setting task
   ansible.builtin.import_tasks: setting.yml
   tags: setting
-# - name: Manage database
-#   ansible.builtin.import_tasks: database.yml
-#   tags: database
+- name: Manage database
+  ansible.builtin.import_tasks: database.yml
+  tags: database
 # - name: Manage user
 #   ansible.builtin.import_tasks: user.yml
 #   tags: database_user
