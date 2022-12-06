@@ -2,3 +2,4 @@
 postgresql_version: 13
 postgresql_dependency_packages:
   - python3-psycopg2
+  - acl
