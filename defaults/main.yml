@@ -5,6 +5,26 @@
 postgresql_packages:
   - postgresql
 
+## -------------------
+## デフォルトのcharset
+## -------------------
+postgresql_default_charset: UTF8
+
+## -------------------
+## データベースの設定
+## -------------------
+postgresql_databases: []
+
+## -------------------
+## ユーザーの設定
+## -------------------
+postgresql_users: []
+
+## -----------------
+## pg_hba.confの設定
+## -----------------
+postgresql_cfg: ""
+
 ## -----------------
 ## pg_hba.confの設定
 ## -----------------
@@ -14,3 +34,10 @@ postgresql_pg_hba_cfg: ""
 ## pg_ident.confの設定
 ## -----------------
 postgresql_pg_ident_cfg: ""
+
+## -----------------
+## pg_ctl.confの設定
+## -----------------
+postgresql_pg_ctl_cfg: ""
+
+# posgresql_allow_connect_other_host: false

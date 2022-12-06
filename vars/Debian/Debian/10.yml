@@ -1,2 +1,4 @@
 ---
 postgresql_version: 11
+postgresql_dependency_packages:
+  - python-psycopg2

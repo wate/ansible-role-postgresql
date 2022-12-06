@@ -1,10 +1,12 @@
 ---
-- name: Service postgresql is active and enabled on system startup
+- name: Service PostgreSQL is active and enabled on system startup
   ansible.builtin.systemd:
     name: postgresql
     state: started
     enabled: true
-# - name: allow postgresql port
-#  community.general.ufw:
-#    rule: allow
-#    port: "123456"
+- name: Ensure allow PostgreSQL port
+  community.general.ufw:
+    rule: allow
+    port: "5432"
+    proto: tcp
+  when: posgresql_allow_connect_other_host | default(false)
