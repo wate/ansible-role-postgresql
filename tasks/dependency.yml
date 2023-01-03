@@ -10,6 +10,6 @@
         - "{{ ansible_facts.os_family }}.yml"
       paths:
         - tasks/dependency
-- name: Dependency task
+- name: Include dependency task
   ansible.builtin.include_tasks: "{{ include_task_file }}"
   when: include_task_file | length > 0
