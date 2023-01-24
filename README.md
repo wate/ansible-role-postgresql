@@ -32,9 +32,30 @@ Role Variables
 
 ユーザーの設定
 
+### `postgresql_max_connections`
+
+max_connectionsの設定値
+
+### `postgresql_shared_buffers_rate`
+
+shared_buffersの設定値の自動算出に利用
+
+### `postgresql_effective_cache_size_rate`
+
+effective_cache_sizeの設定値の自動算出に利用
+
+### `postgresql_maintenance_work_mem_rate`
+
+maintenance_work_memの設定値の自動算出に利用
+
+### `postgresql_strage_type`
+
+random_page_costおよびeffective_io_concurrency設定値の自動設定に利用
+
 ### `postgresql_cfg`
 
-pg_hba.confの設定
+postgresql.confの設定  
+@see https://pgtune.leopard.in.ua/
 
 ### `postgresql_pg_hba_cfg`
 
