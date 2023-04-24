@@ -37,10 +37,6 @@ platforms:
     # driver:vagrant
     box: wate/debian-10
     memory: 1024
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
 provisioner:
   name: ansible
   options:
@@ -56,7 +52,6 @@ provisioner:
 # scenario:
 #   test_sequence:
 #     - dependency
-#     - lint
 #     - cleanup
 #     - destroy
 #     - syntax
