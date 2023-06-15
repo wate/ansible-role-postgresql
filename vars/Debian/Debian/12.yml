@@ -1,0 +1,5 @@
+---
+postgresql_version: 15
+postgresql_dependency_packages:
+  - python3-psycopg2
+  - acl
