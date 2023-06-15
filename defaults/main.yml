@@ -13,19 +13,19 @@ postgresql_default_charset: UTF8
 ## -------------------
 ## データベースの設定
 ## -------------------
-postgresql_databases:
-  - name: sample1
-    encoding: utf8
-  - name: sample2
-    encoding: utf8
-    user: sample2_user
-    password: sample_p@55w0rd
-  - name: sample3
-    encoding: utf8
-    template: template0
-  - name: sample4
-    encoding: utf8
-    state: false
+postgresql_databases: []
+# - name: sample1
+#   encoding: utf8
+# - name: sample2
+#   encoding: utf8
+#   user: sample2_user
+#   password: sample_p@55w0rd
+# - name: sample3
+#   encoding: utf8
+#   template: template0
+# - name: sample4
+#   encoding: utf8
+#   state: false
 
 ## -------------------
 ## ユーザーの設定
