@@ -4,13 +4,6 @@
   become_user: postgres
   no_log: true
   block:
-    - name: Create PosrgreSQL users(on postgresql_databases variable)
-      community.postgresql.postgresql_user:
-        name: "{{ item.user | default(item.name) }}"
-        password: "{{ item.password | default(omit) }}"
-        db: "{{ item.name }}"
-        state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
-      loop: "{{ postgresql_databases | selectattr('password', 'defined') | list }}"
     - name: Create/remove PosrgreSQL users
       community.postgresql.postgresql_user:
         name: "{{ item.name }}"
@@ -18,3 +11,5 @@
         db: "{{ item.db | default(omit) }}"
         state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
       loop: "{{ postgresql_users }}"
+      loop_control:
+        label: "{{ item.name }}"

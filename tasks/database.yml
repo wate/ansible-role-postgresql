@@ -1,12 +1,32 @@
 ---
 - name: Create/remove databases
-  community.postgresql.postgresql_db:
-    name: "{{ item.name }}"
-    encoding: "{{ item.encoding | default(postgresql_default_charset) }}"
-    template: "{{ item.template | default(omit) }}"
-    state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
-  loop: "{{ postgresql_databases }}"
-  loop_control:
-    label: "{{ item.name }}"
   become: true
   become_user: postgres
+  block:
+    - name: Create/remove databases
+      community.postgresql.postgresql_db:
+        name: "{{ item.name }}"
+        encoding: "{{ item.encoding | default(postgresql_default_charset) }}"
+        template: "{{ item.template | default(omit) }}"
+        state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
+      loop: "{{ postgresql_databases }}"
+      loop_control:
+        label: "{{ item.name }}"
+    - name: Create PosrgreSQL users(on postgresql_databases variable)
+      community.postgresql.postgresql_user:
+        name: "{{ item.user | default(item.name) }}"
+        password: "{{ item.password | default(omit) }}"
+        db: "{{ item.name }}"
+        state: "{{ item.state | default(true) | ternary('present', 'absent') }}"
+      when: item.state | default(true)
+      loop: "{{ postgresql_databases | selectattr('password', 'defined') | list }}"
+      loop_control:
+        label: "{{ item.name }}"
+    - name: Change database owner
+      community.postgresql.postgresql_owner:
+        db: "{{ item.name }}"
+        new_owner: "{{ item.user | default(item.name) }}"
+      when: item.state | default(true)
+      loop: "{{ postgresql_databases | selectattr('password', 'defined') | list }}"
+      loop_control:
+        label: "{{ item.name }}"

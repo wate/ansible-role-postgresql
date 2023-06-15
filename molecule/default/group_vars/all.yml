@@ -1,1 +1,28 @@
 ---
+postgresql_databases:
+  - name: app_dev
+    encoding: utf8
+  - name: app_stg
+    password: app_stg_password
+    encoding: utf8
+  - name: app_test
+    user: app_test_user
+    password: app_test_password
+    encoding: utf8
+  - name: app_prod
+    encoding: utf8
+    template: template0
+
+postgresql_users:
+  - name: app_dev_read_only
+    password: app_dev_password
+    db: app_dev
+  - name: app_stg_read_only
+    password: app_stg_password
+    db: app_stg
+  - name: app_test_read_only
+    password: app_test_password
+    db: app_stg
+  - name: app_prod_read_only
+    password: app_prod_password
+    db: app_prod
