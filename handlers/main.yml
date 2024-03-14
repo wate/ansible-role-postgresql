@@ -1,9 +1,9 @@
 ---
 - name: restart postgresql
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: restarted
     name: postgresql
 - name: reload postgresql
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     state: reloaded
     name: postgresql
