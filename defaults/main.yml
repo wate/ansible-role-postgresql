@@ -101,4 +101,9 @@ postgresql_pg_ident_cfg: ""
 ## -----------------
 postgresql_pg_ctl_cfg: ""
 
-# posgresql_allow_connect_other_host: false
+## -------------------
+## サーバーへの接続を許可するIPアドレス
+## -------------------
+# posgresql_allow_connect_other_host: 10.0.0.0/8
+# posgresql_allow_connect_other_host: 172.16.0.0/12
+# posgresql_allow_connect_other_host: 192.168.0.0/16
