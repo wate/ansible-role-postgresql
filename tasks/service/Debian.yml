@@ -9,4 +9,5 @@
     rule: allow
     port: "5432"
     proto: tcp
-  when: posgresql_allow_connect_other_host | default(false)
+    from_ip: "{{ posgresql_allow_connect_other_host | default('any') }}"
+  when: posgresql_allow_connect_other_host is defined
