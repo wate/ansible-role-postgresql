@@ -13,7 +13,9 @@
 - name: Include variable file
   ansible.builtin.include_vars:
     file: "{{ variable_file }}"
-  when: variable_file | length > 0
+  when:
+    - variable_file is not none
+    - variable_file | length > 0
 - name: Import dependency task
   ansible.builtin.import_tasks:
     file: dependency.yml
@@ -24,6 +26,11 @@
     file: package.yml
   tags:
     - role_postgresql_package
+- name: Detect PostgreSQL version via PG_VERSION
+  ansible.builtin.import_tasks:
+    file: version.yml
+  tags:
+    - role_postgresql_version_detect
 - name: Import setting task
   ansible.builtin.import_tasks:
     file: setting.yml

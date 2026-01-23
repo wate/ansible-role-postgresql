@@ -12,9 +12,11 @@
     - name: Assert package
       ansible.builtin.assert:
         that:
-          - ansible_facts.packages['postgresql']
-          - ansible_facts.packages['python3-psycopg2']
-          - ansible_facts.packages['acl']
+          - "ansible_facts.packages['postgresql'] is defined"
+          - "ansible_facts.packages['python3-psycopg2'] is defined"
+          - "ansible_facts.packages['acl'] is defined"
+        fail_msg: "Required PostgreSQL packages are not installed"
+        success_msg: "All required PostgreSQL packages are installed"
     ## ユーザーのテスト
     - name: Add user check
       ansible.builtin.user:
@@ -23,6 +25,8 @@
     - name: Assert user
       ansible.builtin.assert:
         that: result is not changed
+        fail_msg: "User postgres is not properly configured"
+        success_msg: "User postgres is properly configured"
     ## グループのテスト
     - name: Add group check
       ansible.builtin.group:
@@ -31,25 +35,33 @@
     - name: Assert group
       ansible.builtin.assert:
         that: result is not changed
+        fail_msg: "Group postgres is not properly configured"
+        success_msg: "Group postgres is properly configured"
     ## サービスのテスト
     - name: Populate service facts
       ansible.builtin.service_facts:
     - name: Assert service(postgresql)
       ansible.builtin.assert:
         that:
-          - ansible_facts.services['postgresql.service']
+          - ansible_facts.services['postgresql.service'] is defined
           - ansible_facts.services['postgresql.service']['status'] == 'enabled'
+        fail_msg: "postgresql service is not enabled"
+        success_msg: "postgresql service is enabled"
     - name: Assert service(bullseye)
       ansible.builtin.assert:
         that:
-          - ansible_facts.services['postgresql@13-main.service']
+          - ansible_facts.services['postgresql@13-main.service'] is defined
           - ansible_facts.services['postgresql@13-main.service']['state'] == 'running'
+        fail_msg: "PostgreSQL 13 service is not running"
+        success_msg: "PostgreSQL 13 service is running"
       when: ansible_facts.distribution_major_version == '11'
     - name: Assert service(buster)
       ansible.builtin.assert:
         that:
-          - ansible_facts.services['postgresql@11-main.service']
+          - ansible_facts.services['postgresql@11-main.service'] is defined
           - ansible_facts.services['postgresql@11-main.service']['state'] == 'running'
+        fail_msg: "PostgreSQL 11 service is not running"
+        success_msg: "PostgreSQL 11 service is running"
       when: ansible_facts.distribution_major_version == '10'
     ## 待受ポートのテスト
     - name: Gather facts on listening ports
@@ -63,3 +75,5 @@
       ansible.builtin.assert:
         that:
           - 5432 in listen_tcp_posts
+        fail_msg: "Port 5432 is not listening"
+        success_msg: "Port 5432 is listening"
