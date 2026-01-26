@@ -72,15 +72,15 @@ postgresql_strage_type: ssd
 postgresql_cfg: |
   # listen_addresses = '*'
   max_connections = {{ postgresql_max_connections }}
-  shared_buffers = {{ ((((ansible_memtotal_mb / 1024) | round | int) * 1024) * (postgresql_shared_buffers_rate / 100)) | int }}MB
-  effective_cache_size = {{ ((((ansible_memtotal_mb / 1024) | round | int) * 1024) * (postgresql_effective_cache_size_rate / 100)) | int }}MB
-  maintenance_work_mem = {{ ((((ansible_memtotal_mb / 1024) | round | int) * 1024) * (postgresql_maintenance_work_mem_rate / 100)) | int }}MB
+  shared_buffers = {{ ((((ansible_facts.memtotal_mb / 1024) | round | int) * 1024) * (postgresql_shared_buffers_rate / 100)) | int }}MB
+  effective_cache_size = {{ ((((ansible_facts.memtotal_mb / 1024) | round | int) * 1024) * (postgresql_effective_cache_size_rate / 100)) | int }}MB
+  maintenance_work_mem = {{ ((((ansible_facts.memtotal_mb / 1024) | round | int) * 1024) * (postgresql_maintenance_work_mem_rate / 100)) | int }}MB
   checkpoint_completion_target = 0.9
-  wal_buffers = {{ (((ansible_memtotal_mb / 1024) | round | int) <= 1) | ternary('7864kB', '16MB') }}
+  wal_buffers = {{ (((ansible_facts.memtotal_mb / 1024) | round | int) <= 1) | ternary('7864kB', '16MB') }}
   default_statistics_target = 100
   random_page_cost = {{ (postgresql_strage_type == 'hdd') | ternary(4, 1.1) }}
   effective_io_concurrency = {{ (postgresql_strage_type == 'hdd') | ternary(2, 200) }}
-  work_mem = {{ ((ansible_memtotal_mb / 1024) | round | int) * 655 }}kB
+  work_mem = {{ ((ansible_facts.memtotal_mb / 1024) | round | int) * 655 }}kB
   min_wal_size = 1GB
   max_wal_size = 4GB
 
