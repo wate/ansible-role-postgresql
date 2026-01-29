@@ -2,7 +2,6 @@
 - name: Verify
   hosts: all
   gather_facts: true
-  check_mode: true
   become: true
   tasks:
     ## パッケージのテスト
@@ -18,25 +17,25 @@
         fail_msg: "Required PostgreSQL packages are not installed"
         success_msg: "All required PostgreSQL packages are installed"
     ## ユーザーのテスト
-    - name: Add user check
-      ansible.builtin.user:
-        name: postgres
-      register: result
+    - name: Get user facts
+      ansible.builtin.getent:
+        database: passwd
+        key: postgres
     - name: Assert user
       ansible.builtin.assert:
-        that: result is not changed
-        fail_msg: "User postgres is not properly configured"
-        success_msg: "User postgres is properly configured"
+        that: getent_passwd['postgres'] is defined
+        fail_msg: "User postgres does not exist"
+        success_msg: "User postgres exists"
     ## グループのテスト
-    - name: Add group check
-      ansible.builtin.group:
-        name: postgres
-      register: result
+    - name: Get group facts
+      ansible.builtin.getent:
+        database: group
+        key: postgres
     - name: Assert group
       ansible.builtin.assert:
-        that: result is not changed
-        fail_msg: "Group postgres is not properly configured"
-        success_msg: "Group postgres is properly configured"
+        that: getent_group['postgres'] is defined
+        fail_msg: "Group postgres does not exist"
+        success_msg: "Group postgres exists"
     ## サービスのテスト
     - name: Populate service facts
       ansible.builtin.service_facts:
